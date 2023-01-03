@@ -1,5 +1,6 @@
 """
 Колода карт
+
 Сгенерируйте и выведите на экран колоду игральных карт без одной из мастей: три масти от двойки до туза. 
 Масть, которая должна быть выброшена, вводится пользователем. Используйте итератор product для того, чтобы 
 скомбинировать масти и номиналы.
@@ -68,6 +69,6 @@ for value, suit in list(product(values, suit)):
     if suit != exception:
         print(value, suit)
 
-
+# Ultimate Edition
 print("\n".join(i for i in [" ".join((value, suit)) for value, suit in list(product(list(chain([str(i) for i in range(2, 11)], ["валет", "дама", "король", "туз"])), ["пик", "треф", "бубен", "червей"])) if suit != exception]))
 
