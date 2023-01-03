@@ -1,5 +1,6 @@
 """
 Список покупок 2.0
+
 Давайте вновь поможем человеку с покупками. Разработайте программу, которая собирает пожелания семьи в 
 единый список.
 
@@ -38,8 +39,3 @@ for i in range(number_of_people):
     temp.append(wishes)
 for index, value in enumerate(sorted(chain.from_iterable(temp)), 1):
     print(f'{index}. {value}')
-
-
-
-
-
