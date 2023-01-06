@@ -29,73 +29,63 @@ A B C F
 1 1 1 1
 """
 
-string = input().split()
+import itertools
+import re
 
-# узнаем какие буквы были введены, и сколько
-letters = sorted({let for let in string if let.isupper()})
-max_letters = len(letters)
-dct = {}
+# Примеры внутри функции основаны на выражениях:
+# 1) not A or B and C
+# 2) A and not B and A
 
-print(" ".join(letters), "F")
+def build_truth_table(expression):
+    """Функция для построения таблицы истинности для любого выражения"""
 
-for n in range(0, 2 ** max_letters):
-    num = bin(n)
-    num = num.replace('b', '0')
-    temp = max_letters if max_letters <= 3 else len(num)
-    for let in letters:
-        dct[let] = int(num[-temp])
-        temp -= 1
-    if "A" in dct.keys():
-        A = dct["A"]
-    if "B" in dct.keys():
-        B = dct["B"]
-    if "C" in dct.keys():
-        C = dct["C"]
-    if "D" in dct.keys():
-        D = dct["D"]
-    if "E" in dct.keys():
-        E = dct["E"]
-    if "G" in dct.keys():
-        G = dct["G"]
-    if "F" in dct.keys():
-        F = dct["F"]
-    if "H" in dct.keys():
-        H = dct["H"]
-    if "I" in dct.keys():
-        I = dct["I"]
-    if "J" in dct.keys():
-        J = dct["J"]
-    if "K" in dct.keys():
-        K = dct["K"]
-    if "L" in dct.keys():
-        L = dct["L"]
-    if "M" in dct.keys():
-        M = dct["M"]
-    if "N" in dct.keys():
-        N = dct["N"]
-    if "O" in dct.keys():
-        O = dct["O"]
-    if "P" in dct.keys():
-        P = dct["P"]
-    if "Q" in dct.keys():
-        Q = dct["Q"]
-    if "R" in dct.keys():
-        R = dct["R"]
-    if "S" in dct.keys():
-        S = dct["S"]
-    if "T" in dct.keys():
-        T = dct["T"]
-    if "U" in dct.keys():
-        U = dct["U"]
-    if "V" in dct.keys():
-        V = dct["V"]
-    if "W" in dct.keys():
-        W = dct["W"]
-    if "X" in dct.keys():
-        X = dct["X"]
-    if "Y" in dct.keys():
-        Y = dct["Y"]
-    if "Z" in dct.keys():
-        Z = dct["Z"]
-    f = 1 if eval(" ".join(string)) else 0
-    print(" ".join([str(i) for i in dct.values()]), f'{f}')
+    # Получить множество всех переменных в выражении
+    variables = set(re.findall('[A-Z]', expression))
+    # 1) {A, C, B}
+    # 2) {B, A}
+
+    # Отстортировать множество в лексикографическом порядке
+    variables = sorted(variables)
+    # 1) {A, B, C}
+    # 2) {A, B}
+
+    # Создать список всех возможных комбинаций значений 0 и 1 для этих переменных
+    combinations = list(itertools.product([0, 1], repeat=len(variables)))
+    # 1) [(0,0,0), (0,0,1), (0,1,0),(0,1,1),(1,0,0),(1,0,1),(1,1,0),(1,1,1)]
+    # 2) [(0,0), (0,1), (1,0), (1,1)]
+
+    # Создать список всех возможных значений выражения для этих комбинаций
+    values = []
+    for combination in combinations:
+
+        # Преобразовать комбинацию в словарь, где каждая переменная соответствует своему значению
+        variables_values = dict(zip(variables, combination))
+        # Для первой комбинации словари выглядят так:
+        # 1) {"A": 0, "B": 0, "C": 0}
+        # 2) {"A": 0, "B": 0}
+
+        # Подставить эти значения в выражение и вычислить результат
+        value = eval(expression, variables_values)
+        # value проверит комбинацию полученную из variables_values на истинность согласно выражению
+        # 1) not A or B and C для {"A": 0, "B": 0, "C": 0}
+        # 2) A and not B and A для {"A": 0, "B": 0}
+
+        # Результат истинности выражения сохраняем в список values
+        values.append(value)
+    
+    # Вернуть результат в виде таблицы
+    return variables, combinations, values
+
+
+# Считать выражение с консоли
+expression = input()
+# Построить таблицу истинности (Получить значения этих переменных на основании работы функции)
+variables, combinations, values = build_truth_table(expression)
+
+# Вывести таблицу истинности
+print(" ".join(variables) + " F")
+# A B C F
+for combination, value in zip(combinations, values):
+    print(" ".join(str(x) for x in combination) + " " + str(int(value)))
+    # 0 0 0 True
+    # Для того, чтобы избежать True при выводе, необходимо привести значение value к int. Тем самым получив 1 или 0
