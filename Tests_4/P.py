@@ -1,7 +1,6 @@
 """
-НЕ РЕШЕНА ПРАВИЛЬНО!!!
-
 Редизайн таблицы умножения
+
 Согласитесь, что предыдущие таблицы умножения выглядят не очень красиво. 
 Давайте зададим для всех столбцов одинаковую ширину, а значения в ячейках выровним по центру.
 И да, заказчик попросил ещё добавить в таблицу рамки между ячейками.
@@ -28,17 +27,20 @@
  3 | 6 | 9 
 """
 
-number = int(input())
-width = int(input())
-max_len = width * number + number
-length = width // 2
-space = " "
-for i in range(1, number + 1):
-    for j in range(1, number + 1):
-        if j < number:
-            print(str(i * j).center(width), end="|")
-        else:
-            print(str(i * j).center(width), end=" ")
-    print()
-    print("-" * (max_len - 1))
+def print_table(size, column_width):
+    count_slash = 0
+    for i in range(1, size + 1):
+        for j in range(1, size + 1):
+            print(f"{i * j:^{column_width}}", end="|" if count_slash < size - 1 else "")
+            count_slash += 1
+        count_slash = 0
+        print()
+        if i != size:
+            print("-" * (size * (column_width + 1) - 1))
+
+
+# Получаем размер таблицы и ширину столбцов из входных данных
+size, column_width = int(input()), int(input())
+
+print_table(size, column_width)
     
