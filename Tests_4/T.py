@@ -1,7 +1,6 @@
 """
-РЕШЕНИЕ ВЕРНО, НО НЕ ПРИНЯТО!!!
-
 Математическая выгода
+
 Математик Виталий Евгеньевич задумался над вопросом выгоды систем счисления. 
 Он решил, что выгодной системой счисления будет являться та, в которой число имеет наибольшую сумму цифр. 
 Напишите программу, которая по введённому числу определяет основание системы счисления с максимальной выгодой.
@@ -20,18 +19,20 @@
 7
 """
 
-number = int(input())
-const = number
-max_sum = 0
-for i in range(2, 10):
-    number = const
-    temp = ""
-    sum_of_digits = 0
-    while number > 0:
-        temp = str(number % i) + temp
-        sum_of_digits += number % i
-        number = number // i
-        if sum_of_digits > max_sum:
-            max_sum = sum_of_digits
-            system = i
-print(system)
+def find_base(n: int) -> int:
+    max_sum = 0
+    max_base = 0
+    for base in range(2, 11):
+        num = n
+        digits = []
+        while num > 0:
+            digits.append(num % base)
+            num //= base
+        cur_sum = sum(digits)
+        if cur_sum > max_sum:
+            max_sum = cur_sum
+            max_base = base
+    return max_base
+
+
+print(find_base(int(input())))
