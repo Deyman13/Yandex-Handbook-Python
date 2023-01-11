@@ -28,22 +28,25 @@
 11 12 13 14
 """
 
-number = int(input())
-temp = 1
-max_count_numbers = 1
-nowcounter = 0
-length = 5
-while temp <= number:
-    if nowcounter == 0:
-        print(" " * length, temp, end=' ')
-    else: 
-        print(temp, end=" ")
-    temp += 1
-    nowcounter += 1
-    if nowcounter == max_count_numbers:
-        print()
-        max_count_numbers += 1
-        nowcounter = 0
-        length -= 1
+n = int(input())
+m = (-1 + (1 + 8 * n) ** 0.5) / 2
+m = int(-1 * m // 1 * -1)
+
+c = 0
+elka = [[0] * i for i in range(1, m + 1)]
+
+for i in range(m):
+    for j in range(0, i + 1):
+        if c < n:
+            c += 1
+            elka[i][j] = c
+        else:
+            elka[-1].remove(0)
+
+max_len = len(str(' '.join(map(str, elka[-1]))))
+
+
+for row in elka:
+    print('{:^{width}}'.format((' '.join(map(str, row))), width=max_len))
 
 
