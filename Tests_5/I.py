@@ -1,6 +1,4 @@
 """
-РЕШЕНА ВЕРНО, НО НЕ ПРИНИМАЕТСЯ!!!
-
 Без комментариев
 
 Мы надеемся, вы пишите комментарии к своему коду. Если так, то интерпретатор удаляет их перед тем, как выполнить код. 
@@ -26,15 +24,20 @@ name = input()
 print(f"Hello, {name}!")
 """
 
-a = []
+list = []
+
 while True:
-    b = input()
-    if '#' in b.split():  # если найдена # в списке элементов строки b
-        f = b.index('#')  # то узнаем ее индекс
-    # срезаем строку от индекса решетки и эту строку закидываем в список
-    a.append("".join(b[:f]))
-    if b == "":
+    line = input()
+    if line == '':
         break
-for i in range(len(a)): 
-    if a[i] != "": # если строка не пустая, то выводим ее очищенную
-        print(a[i])
+    else:
+        list.append(line)
+
+for line in list:
+    grid = line.find('#')
+    if grid == 0:
+        continue
+    if grid > 0:
+        print(line[:grid])
+    else:
+        print(line)
