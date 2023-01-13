@@ -22,16 +22,17 @@ result = make_equation(3, 2, 1)
 result = '((3) * x + 2) * x + 1'
 """
 
-# def make_equation(a, *coef, is_first=True):
-#     if len(coef) == 0:
-#         return str(a)
-#     else:
-#         if is_first:
-#             return "(" * len(coef) + f"{a}) * x + {make_equation(*coef, is_first=False)}"
-#         else:
-#             return f"{a}) * x + {make_equation(*coef, is_first=False)}"
+# Все представленные варианты решают данную задачу, но принимается только первый вариант. 
+
+# 1 вариант:
+def make_equation(*coefs):
+    if len(coefs) == 1:
+        return str(coefs[0])
+    else:
+        return '(' + make_equation(*coefs[:-1]) + ') * x + ' + str(coefs[-1])
 
 
+# 2 вариант:
 def make_equation(a, *coefs):
     equation = str(a)
     for i, coef in enumerate(coefs):
@@ -39,8 +40,20 @@ def make_equation(a, *coefs):
     return equation
 
 
-result = make_equation(9, 8, 7, 6, 5, 4, 3, 2, 1)
+# 3 вариант:
+def make_equation(a, *coef, is_first=True):
+    if len(coef) == 0:
+        return str(a)
+    else:
+        if is_first:
+            return "(" * len(coef) + f"{a}) * x + {make_equation(*coef, is_first=False)}"
+        else:
+            return f"{a}) * x + {make_equation(*coef, is_first=False)}"
+
+
+result = make_equation(3, 2, 1)
 print(result)
+
 
 
 
