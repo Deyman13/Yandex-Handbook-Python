@@ -43,25 +43,30 @@ class PatchedPoint(Point):
 
     def __init__(self, *args):
         if not args:
-            self.x, self.y = 0, 0
+            super().__init__(0, 0)
         elif len(args) == 1 and (isinstance(args[0], (tuple, list, set))):
-            self.x, self.y = args[0][0], args[0][1]
+            super().__init__(args[0][0], args[0][1])
         else:
-            self.x, self.y = args[0], args[1]
+            super().__init__(args[0], args[1])
     
-    def __str__(self):
+    def __str__(self) -> str:
         return f'({self.x}, {self.y})'
+
+    def __repr__(self) -> str:
+        return f'PatchedPoint({self.x}, {self.y})'
     
     def __add__(self, other):
-        x = self.x + other[0]
-        y = self.y + other[1]
-        return (x, y)
+        new_point = PatchedPoint(self.x + other[0], self.y + other[1])
+        return new_point
     
     def __iadd__(self, other):
-        x, y = other
-        self.x += x 
-        self.y += y
+        self.x += other[0]
+        self.y += other[1]
         return self
 
 
+point = PatchedPoint()
+print(point)
+new_point = point + (2, -3)
+print(point, new_point, point is new_point)
 
