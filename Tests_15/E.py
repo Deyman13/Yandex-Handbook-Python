@@ -1,6 +1,4 @@
 """
-НЕ РЕШЕНА ВЕРНО!!!
-
 Слияние с проверкой
 
 Когда-то вы уже писали функцию merge, которая производит слияние двух отсортированных кортежей.
@@ -26,40 +24,29 @@ print(*merge(35, (1, 2, 3)))
 Вызвано исключение StopIteration
 """
 
+
 def merge(a, b):
-    try:
-        if not (hasattr(a, '__iter__') and hasattr(b, '__iter__')):
-            raise StopIteration
-        if not all(isinstance(i, type(a[0])) for i in a) or not all(isinstance(i, type(b[0])) for i in b):
-            raise TypeError
-        if a != sorted(a) or b != sorted(b):
-            raise ValueError
-    except StopIteration:
-        return "Вызвано исключение StopIteration"
-    except TypeError:
-        return "Вызвано исключение TypeError"
-    except ValueError:
-        return "Вызвано исключение ValueError"
-    result = []
-    i = 0
-    j = 0
-    while i < len(a) and j < len(b):
-        if a[i] < b[j]:
-            result.append(a[i])
-            i += 1
-        else:
-            result.append(b[j])
-        j += 1
-    result.extend(a[i:])
-    result.extend(b[j:])
-    return tuple(result)
-
-
-print(*merge(35, (1, 2, 3)))
-print(*merge([3, 2, 1], range(10)))
+    if not hasattr(a, '__iter__') or not hasattr(b, '__iter__'):
+        raise StopIteration
+    elif not all(isinstance(i, type(a[0])) for i in a + [j for j in b]):
+        raise TypeError
+    elif not all(x <= y for x, y in zip(a, a[1:])) or not all(x <= y for x, y in zip(b, b[1:])):
+        raise ValueError
+    else:
+        result = []
+        i = 0
+        j = 0
+        while i < len(a) and j < len(b):
+            if a[i] < b[j]:
+                result.append(a[i])
+                i += 1
+            else:
+                result.append(b[j])
+                j += 1
+        result.extend(a[i:])
+        result.extend(b[j:])
+        return tuple(result)
 
 
 
 
-
-    
